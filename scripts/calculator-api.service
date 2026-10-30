@@ -1,0 +1,15 @@
+[Unit]
+Description=Calculator API
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/opt/calculator-api
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5
+Environment=PORT=3000
+
+[Install]
+WantedBy=multi-user.target
