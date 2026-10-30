@@ -8,7 +8,7 @@ const app = express();
 const OPERATIONS = { add, subtract, multiply, divide };
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', version: '1.0.0' });
+  res.json({ status: 'ok', version: '2.0.0' });
 });
 
 app.get('/calc/:operation', (req, res) => {
