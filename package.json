@@ -1,0 +1,31 @@
+{
+  "name": "aws-cicd-assignment2",
+  "version": "1.0.0",
+  "description": "Build and test automation demo for AWS CodeBuild",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest --verbose"
+  },
+  "dependencies": {
+    "express": "4.21.1"
+  },
+  "devDependencies": {
+    "jest": "29.7.0",
+    "jest-junit": "16.0.0",
+    "supertest": "7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "test-reports",
+          "outputName": "junit.xml"
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "===== INSTALL phase started on $(date) ====="
+      - node --version
+      - npm --version
+
+  pre_build:
+    commands:
+      - echo "===== PRE_BUILD phase: installing dependencies ====="
+      - npm ci
+      - npm ls --depth=0
+
+  build:
+    commands:
+      - echo "===== BUILD phase: running unit tests ====="
+      - npm test
+      - echo "All tests passed."
+
+  post_build:
+    commands:
+      - echo "===== POST_BUILD phase: packaging production artifact ====="
+      - npm prune --omit=dev
+      - echo "Build number: $CODEBUILD_BUILD_NUMBER"            > build-info.txt
+      - echo "Commit: $CODEBUILD_RESOLVED_SOURCE_VERSION" >> build-info.txt
+      - echo "Node version: $(node --version)"                  >> build-info.txt
+      - echo "Built at: $(date)"                            >> build-info.txt
+      - cat build-info.txt
+
+reports:
+  jest_reports:
+    files:
+      - "test-reports/junit.xml"
+    file-format: JUNITXML
+
+artifacts:
+  name: assignment2-build-$CODEBUILD_BUILD_NUMBER
+  files:
+    - app.js
+    - server.js
+    - calculator.js
+    - package.json
+    - package-lock.json
+    - build-info.txt
+    - "node_modules/**/*"
