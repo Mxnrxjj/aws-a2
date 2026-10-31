@@ -1,0 +1,45 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "===== INSTALL phase ====="
+      - node --version
+
+  pre_build:
+    commands:
+      - echo "===== PRE_BUILD phase - installing dependencies ====="
+      - npm ci
+
+  build:
+    commands:
+      - echo "===== BUILD phase - running unit tests ====="
+      - npm test
+      - echo "All tests passed."
+
+  post_build:
+    commands:
+      - echo "===== POST_BUILD phase - packaging for Elastic Beanstalk ====="
+      - npm prune --omit=dev
+      - echo "Build $CODEBUILD_BUILD_NUMBER" > build-info.txt
+      - cat build-info.txt
+
+reports:
+  jest_reports:
+    files:
+      - "test-reports/junit.xml"
+    file-format: JUNITXML
+
+artifacts:
+  name: assignment4-eb-$CODEBUILD_BUILD_NUMBER
+  files:
+    - app.js
+    - server.js
+    - calculator.js
+    - package.json
+    - package-lock.json
+    - Procfile
+    - build-info.txt
+    - "node_modules/**/*"
