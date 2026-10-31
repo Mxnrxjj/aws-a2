@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+test-reports
+tests
+.git
+.gitignore
+.gitattributes
+*.md
+appspec.yml
+buildspec*.yml
+Procfile
+scripts
