@@ -22,6 +22,7 @@ app.get('/calc/:operation', (req, res) => {
   const a = Number(req.query.a ?? 0);
   const b = Number(req.query.b ?? 0);
 
+
   if (Number.isNaN(a) || Number.isNaN(b)) {
     return res.status(400).json({ error: 'a and b must be numbers' });
   }
